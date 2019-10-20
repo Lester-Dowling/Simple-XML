@@ -45,6 +45,8 @@ target_include_directories(
 #
 configure_file("config.h.in" "${PROJECT_BINARY_DIR}/config.h")
 include_directories("${PROJECT_BINARY_DIR}")
+# if(NOT CMAKE_BUILD_TYPE MATCHES Release) target_compile_definitions(
+# ${PROJECT_NAME} PRIVATE # BOOST_ENABLE_ASSERT_HANDLER=1 # ) endif()
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 if(WIN32)

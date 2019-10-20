@@ -10,10 +10,36 @@
 #include "Simple-XML/Element-Filter.hpp"
 #include "Simple-XML/mini-grammar.hpp"
 #include "Pseudo-XPath/Grade.hpp"
+#include "Pseudo-XPath/mini-grammar.hpp"
 #include "OStream-Extra/sequence.hpp"
 #include "String-Extra/predicates.hpp"
 #include "String-Extra/convert-and-translate.hpp"
 #include "String-Extra/forming.hpp"
+namespace hack {
+
+	/**
+	 * This hack is to overcome an unknown complaint from the linker which
+	 * cannot find this function as a static in class Grade.
+	 */
+	pseudo_xpath::Grade::SP parse(std::string const& xpath_text)
+	{
+		using std::string;
+		using std::runtime_error;
+		namespace spirit = boost::spirit;
+		namespace qi = spirit::qi;
+		namespace ascii = spirit::ascii;
+		using String_Iterator = string::const_iterator;
+		using Stream_Iterator = boost::spirit::basic_istream_iterator<char>;
+		using XPath_Grammar = pseudo_xpath::mini_grammar<String_Iterator>;
+
+		XPath_Grammar xpath_parser;
+		String_Iterator sitr = xpath_text.begin();
+		String_Iterator const send = xpath_text.end();
+		if (!qi::phrase_parse(sitr, send, xpath_parser, ascii::space))
+			throw runtime_error{ "Failed to parse this XPath: " + xpath_text };
+		return xpath_parser.result;
+	}
+} // namespace hack
 namespace simple_xml {
 	using std::cout;
 	using std::endl;
@@ -75,7 +101,7 @@ namespace simple_xml {
 
 	void Document::extract_worksheet_titles()
 	{
-		m_filter.set_filter_path(pseudo_xpath::Grade::parse("Workbook, Worksheet"));
+		m_filter.set_filter_path(hack::parse("Workbook, Worksheet"));
 		m_filter.visit_all_depth_first(
 		  [&](Element_Visitor& visitor) -> bool //
 		  {
@@ -103,7 +129,7 @@ namespace simple_xml {
 			titles_xpath_oss << "Workbook, Worksheet[" << wkt_idx << "], Table, "
 							 << "Row[" << m_column_titles_row
 							 << "],Cell,Data[ss:Type=String]";
-			m_filter.set_filter_path(pseudo_xpath::Grade::parse(titles_xpath_oss.str()));
+			m_filter.set_filter_path(hack::parse(titles_xpath_oss.str()));
 			m_filter.visit_all_depth_first(
 			  [&](Element_Visitor& visitor) -> bool //
 			  {
@@ -209,7 +235,7 @@ namespace simple_xml {
 							 << row_filter_columns(wkt_idx, row_titles_column_spec)
 							 << ", Data[ss:Type=String]";
 			// cout << titles_xpath_oss.str() << endl;
-			m_filter.set_filter_path(pseudo_xpath::Grade::parse(titles_xpath_oss.str()));
+			m_filter.set_filter_path(hack::parse(titles_xpath_oss.str()));
 
 			m_filter.visit_all_depth_first(
 			  [&](Element_Visitor& visitor) -> bool //
