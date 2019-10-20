@@ -1,11 +1,11 @@
 cmake_minimum_required (VERSION 3.15)
 
 set(BOOST_VERSION 1.71.0)
-set(Boost_LIBRARIES
-  filesystem
-  date_time
-  regex
-  unit_test_framework
+set(Boost_LIBRARIES #
+  filesystem #
+  date_time #
+  regex #
+  unit_test_framework #
   )
 
 if (NOT Boost_FOUND) # Find Boost package if it wasn't found by the parent project.
@@ -95,7 +95,8 @@ if (Boost_FOUND)
 	message(STATUS "Boost redist copy log = " ${BOOST_REDIST_COPY_LOG})
 	add_custom_target(RoboCopy_Boost_Redist_Unit_Tests
 	  COMMENT "RoboCopy of Boost redist"
-	  COMMAND START /MIN "RoboCopy of Boost redist" ROBOCOPY
+	  COMMAND START /MIN "RoboCopy of Boost redist" #
+      ROBOCOPY
 	  /LOG:"${BOOST_REDIST_COPY_LOG}" /COPY:DAT /NP /R:2 /W:2
 	  "${BOOST_REDIST_DIR}" "${CMAKE_BINARY_DIR}"
 	  ${BOOST_REDIST_COPY_LIST})

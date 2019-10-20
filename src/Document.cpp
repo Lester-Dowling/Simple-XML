@@ -12,9 +12,9 @@
 #include "Pseudo-XPath/Grade.hpp"
 #include "Pseudo-XPath/parsing.hpp"
 #include "OStream-Extra/sequence.hpp"
-#include "Strings-Extra/predicates.hpp"
-#include "Strings-Extra/convert-and-translate.hpp"
-#include "Strings-Extra/forming.hpp"
+#include "String-Extra/predicates.hpp"
+#include "String-Extra/convert-and-translate.hpp"
+#include "String-Extra/forming.hpp"
 namespace simple_xml {
 	using std::cout;
 	using std::endl;
@@ -170,7 +170,7 @@ namespace simple_xml {
 			  && row_titles_column.back() == ']')
 				break;
 			row_titles_column =
-			  strings::translate_column_title_uppercase_letter(row_titles_column);
+			  string_extra::translate_column_title_uppercase_letter(row_titles_column);
 			int column_number;
 			try {
 				column_number = std::stoi(row_titles_column);
@@ -261,7 +261,7 @@ namespace simple_xml {
 
 	double Document::extract_single_number(Grade::SP xpath_root)
 	{
-		return std::stod(strings::erase_commas(extract_single_text(xpath_root)));
+		return std::stod(string_extra::erase_commas(extract_single_text(xpath_root)));
 	}
 
 
