@@ -35,18 +35,19 @@ endforeach(pub_file)
 target_include_directories(${PROJECT_NAME}
                            PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/public)
 
-# Top-level include directories:
+# Private include directories:
 target_include_directories(
-  ${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
-                          ${CMAKE_CURRENT_SOURCE_DIR}/src)
+  ${PROJECT_NAME} #
+  PRIVATE #
+          ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 #
 # Config
 #
-configure_file("config.h.in" "${PROJECT_BINARY_DIR}/config.h")
-include_directories("${PROJECT_BINARY_DIR}")
-# if(NOT CMAKE_BUILD_TYPE MATCHES Release) target_compile_definitions(
-# ${PROJECT_NAME} PRIVATE # BOOST_ENABLE_ASSERT_HANDLER=1 # ) endif()
+# configure_file("config.h.in" "${PROJECT_BINARY_DIR}/config.h")
+# include_directories("${PROJECT_BINARY_DIR}") if(NOT CMAKE_BUILD_TYPE MATCHES
+# Release) target_compile_definitions( ${PROJECT_NAME} PRIVATE #
+# BOOST_ENABLE_ASSERT_HANDLER=1 # ) endif()
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 if(WIN32)
@@ -63,41 +64,6 @@ if(WIN32)
     _WIN32_WINNT=_WIN32_WINNT_WIN10
     _CRT_SECURE_NO_WARNINGS)
   target_compile_options(${PROJECT_NAME} PRIVATE -GR) # Turn on RTTI.
-endif()
-
-#
-# Parent directory for locally cached repositories of open source software (oss)
-#
-option(GRANT_INTERNET_ACCESS "Permit CMake to download from the Internet" OFF)
-message(STATUS "Access Internet permission: ${GRANT_INTERNET_ACCESS}")
-if(CMAKE_SYSTEM_NAME MATCHES "Windows")
-  get_filename_component(HOME $ENV{USERPROFILE} ABSOLUTE)
-else()
-  get_filename_component(HOME $ENV{HOME} ABSOLUTE)
-endif()
-get_filename_component(LOCALLY_CACHED_REPOS_DIR "${HOME}/oss" ABSOLUTE)
-if(EXISTS ${LOCALLY_CACHED_REPOS_DIR})
-  message(STATUS "Locally cached repositories folder: "
-                 ${LOCALLY_CACHED_REPOS_DIR})
-else()
-  message(WARNING "No local repositories folder: " ${LOCALLY_CACHED_REPOS_DIR})
-endif()
-
-#
-# Pre-compiled Header
-#
-# Downloaded external project https://github.com/larsch/cmake-precompiled-header
-#
-get_filename_component(
-  LOCAL_PRECOMPILED_CMAKE
-  "${LOCALLY_CACHED_REPOS_DIR}/cmake-precompiled-header/PrecompiledHeader.cmake"
-  ABSOLUTE)
-if(EXISTS ${LOCAL_PRECOMPILED_CMAKE})
-  message(STATUS "PrecompiledHeader.cmake: " ${LOCAL_PRECOMPILED_CMAKE})
-  include(${LOCAL_PRECOMPILED_CMAKE})
-  target_sources(${PROJECT_NAME} PRIVATE "pch-simple-xml.cpp")
-  add_precompiled_header(${PROJECT_NAME} "pch-simple-xml.hpp" SOURCE_CXX
-                         "pch-simple-xml.cpp")
 endif()
 
 # Make globally available all required external libraries:
