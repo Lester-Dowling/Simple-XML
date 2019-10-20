@@ -8,54 +8,47 @@ set(Boost_LIBRARIES
   unit_test_framework
   )
 
-set(BUILD_SHARED_LIBS            ON)
-set(Boost_USE_MULTITHREADED      ON)
-set(Boost_USE_RELEASE_LIBS       ON)
-set(Boost_USE_STATIC_LIBS       OFF)
-set(Boost_USE_STATIC_RUNTIME    OFF)
-set(Boost_USE_DEBUG_LIBS        OFF)
-set(Boost_USE_DEBUG_RUNTIME     OFF)
-set(Boost_ADDITIONAL_VERSIONS   "${BOOST_VERSION}")
-get_filename_component(BOOST_ROOT "$ENV{BOOST_ROOT}" ABSOLUTE)
-if(NOT EXISTS ${BOOST_ROOT})
-  message(FATAL_ERROR "BOOST_ROOT is not defined.")
-endif()
-get_filename_component(BOOST_LIBRARYDIR "$ENV{BOOST_LIBRARYDIR}" ABSOLUTE)
-if(NOT EXISTS ${BOOST_LIBRARYDIR})
-  # Try to guess location of Boost lib directory:
-  if(WIN32)
-    get_filename_component(BOOST_LIBRARYDIR "$ENV{BOOST_ROOT}/../../lib" ABSOLUTE)
+if (NOT Boost_FOUND) # Find Boost package if it wasn't found by the parent project.
+  set(BUILD_SHARED_LIBS            ON)
+  set(Boost_USE_MULTITHREADED      ON)
+  set(Boost_USE_RELEASE_LIBS       ON)
+  set(Boost_USE_STATIC_LIBS       OFF)
+  set(Boost_USE_STATIC_RUNTIME    OFF)
+  set(Boost_USE_DEBUG_LIBS        OFF)
+  set(Boost_USE_DEBUG_RUNTIME     OFF)
+  set(Boost_ADDITIONAL_VERSIONS   "${BOOST_VERSION}")
+  get_filename_component(BOOST_ROOT "$ENV{BOOST_ROOT}" ABSOLUTE)
+  if(NOT EXISTS ${BOOST_ROOT})
+    message(FATAL_ERROR "BOOST_ROOT is not defined.")
   endif()
+  get_filename_component(BOOST_LIBRARYDIR "$ENV{BOOST_LIBRARYDIR}" ABSOLUTE)
   if(NOT EXISTS ${BOOST_LIBRARYDIR})
-    message(FATAL_ERROR "BOOST_LIBRARYDIR is not defined.")
+    # Try to guess location of Boost lib directory:
+    if(WIN32)
+      get_filename_component(BOOST_LIBRARYDIR "$ENV{BOOST_ROOT}/../../lib" ABSOLUTE)
+    endif()
+    if(NOT EXISTS ${BOOST_LIBRARYDIR})
+      message(FATAL_ERROR "BOOST_LIBRARYDIR is not defined.")
+    endif()
   endif()
-endif()
-get_filename_component(BOOST_CMAKE_DIR "${BOOST_LIBRARYDIR}/cmake" ABSOLUTE)
-if(EXISTS ${BOOST_CMAKE_DIR})
-  find_package(
-    Boost ${BOOST_VERSION} REQUIRED
-    COMPONENTS ${Boost_LIBRARIES}
-    PATHS ${BOOST_CMAKE_DIR}
-    )
-else()
-  find_package(
-    Boost ${BOOST_VERSION} REQUIRED
-    COMPONENTS ${Boost_LIBRARIES}
-    )
-endif()
+  get_filename_component(BOOST_CMAKE_DIR "${BOOST_LIBRARYDIR}/cmake" ABSOLUTE)
+
+  if(EXISTS ${BOOST_CMAKE_DIR})
+    find_package(
+      Boost ${BOOST_VERSION} REQUIRED
+      COMPONENTS ${Boost_LIBRARIES}
+      PATHS ${BOOST_CMAKE_DIR}
+      )
+  else()
+    find_package(
+      Boost ${BOOST_VERSION} REQUIRED
+      COMPONENTS ${Boost_LIBRARIES}
+      )
+  endif()
+endif(NOT Boost_FOUND)
 
 
 if (Boost_FOUND)
-  set_target_properties(
-	Boost::boost
-	PROPERTIES IMPORTED_GLOBAL TRUE
-	)
-  foreach(Boost_Lib ${Boost_LIBRARIES})
-    set_target_properties(
-	  ${Boost_Lib}
-	  PROPERTIES IMPORTED_GLOBAL TRUE
-	  )
-  endforeach(Boost_Lib)
   target_compile_definitions(
 	Boost::boost
 	INTERFACE
@@ -100,7 +93,7 @@ if (Boost_FOUND)
     # message(STATUS "Boost redist folder = " ${BOOST_REDIST_DIR})
 	# message(STATUS "Boost redist copy list = " ${BOOST_REDIST_COPY_LIST})
 	message(STATUS "Boost redist copy log = " ${BOOST_REDIST_COPY_LOG})
-	add_custom_target(RoboCopy_Boost_Redist ALL
+	add_custom_target(RoboCopy_Boost_Redist_Unit_Tests
 	  COMMENT "RoboCopy of Boost redist"
 	  COMMAND START /MIN "RoboCopy of Boost redist" ROBOCOPY
 	  /LOG:"${BOOST_REDIST_COPY_LOG}" /COPY:DAT /NP /R:2 /W:2
@@ -108,7 +101,7 @@ if (Boost_FOUND)
 	  ${BOOST_REDIST_COPY_LIST})
   endif(WIN32)
 
-  message(STATUS "------------------ CMake Variable Logging ------------------")
+  message(STATUS "------------------ Unit-Test Variable Logging -------------")
   message(STATUS "Boost_VERSION:               " ${Boost_VERSION})
   message(STATUS "BOOST_ROOT:                  " ${BOOST_ROOT})
   message(STATUS "BOOST_LIBRARYDIR:            " ${BOOST_LIBRARYDIR})
@@ -116,6 +109,6 @@ if (Boost_FOUND)
   foreach(Boost_Lib ${Boost_LIBRARIES})
     message(STATUS "Boost_Lib:                   " ${Boost_Lib})
   endforeach(Boost_Lib)
-  message(STATUS "---------------- End CMake Variable Logging ----------------")
+  message(STATUS "--------------- End Unit-Test Variable Logging ------------")
 
 endif(Boost_FOUND)

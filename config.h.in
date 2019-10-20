@@ -1,6 +1,17 @@
-#define CMAKE_BUILD_TYPE @CMAKE_BUILD_TYPE@
+/**
+ * Compare two strings in compile time constant fashion.
+ *
+ * Copied from
+ * https://stackoverflow.com/questions/2335888/how-to-compare-strings-in-c-conditional-preprocessor-directives
+ */
+constexpr int c_strcmp(char const* lhs, char const* rhs)
+{
+	return (('\0' == lhs[0]) && ('\0' == rhs[0]))
+			 ? 0
+			 : (lhs[0] != rhs[0]) ? (lhs[0] - rhs[0]) : c_strcmp(lhs + 1, rhs + 1);
+}
 
-#if CMAKE_BUILD_TYPE == "Release"
+#if 0 == c_strcmp("@CMAKE_BUILD_TYPE@", "Release")
 #undef BOOST_ENABLE_ASSERT_HANDLER
 #else
 #define BOOST_ENABLE_ASSERT_HANDLER 1

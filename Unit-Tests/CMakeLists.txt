@@ -101,7 +101,7 @@ if(WIN32)
 endif(WIN32)
 
 #
-# Discover all the unit tests
+# Discover all the unit tests automatically for CTest to execute
 #
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules")
 include(Discover.Boost.Test)

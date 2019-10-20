@@ -23,7 +23,6 @@
 #include <numeric>
 #include <stdexcept>
 
-#include <boost/filesystem.hpp>
 #include <boost/regex.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/assert.hpp>
