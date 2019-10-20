@@ -10,7 +10,6 @@
 #include "Simple-XML/Element-Filter.hpp"
 #include "Simple-XML/mini-grammar.hpp"
 #include "Pseudo-XPath/Grade.hpp"
-#include "Pseudo-XPath/parsing.hpp"
 #include "OStream-Extra/sequence.hpp"
 #include "String-Extra/predicates.hpp"
 #include "String-Extra/convert-and-translate.hpp"
@@ -76,7 +75,7 @@ namespace simple_xml {
 
 	void Document::extract_worksheet_titles()
 	{
-		m_filter.set_filter_path(pseudo_xpath::parse("Workbook, Worksheet"));
+		m_filter.set_filter_path(pseudo_xpath::Grade::parse("Workbook, Worksheet"));
 		m_filter.visit_all_depth_first(
 		  [&](Element_Visitor& visitor) -> bool //
 		  {
@@ -104,7 +103,7 @@ namespace simple_xml {
 			titles_xpath_oss << "Workbook, Worksheet[" << wkt_idx << "], Table, "
 							 << "Row[" << m_column_titles_row
 							 << "],Cell,Data[ss:Type=String]";
-			m_filter.set_filter_path(pseudo_xpath::parse(titles_xpath_oss.str()));
+			m_filter.set_filter_path(pseudo_xpath::Grade::parse(titles_xpath_oss.str()));
 			m_filter.visit_all_depth_first(
 			  [&](Element_Visitor& visitor) -> bool //
 			  {
@@ -210,7 +209,7 @@ namespace simple_xml {
 							 << row_filter_columns(wkt_idx, row_titles_column_spec)
 							 << ", Data[ss:Type=String]";
 			// cout << titles_xpath_oss.str() << endl;
-			m_filter.set_filter_path(pseudo_xpath::parse(titles_xpath_oss.str()));
+			m_filter.set_filter_path(pseudo_xpath::Grade::parse(titles_xpath_oss.str()));
 
 			m_filter.visit_all_depth_first(
 			  [&](Element_Visitor& visitor) -> bool //
