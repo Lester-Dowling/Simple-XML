@@ -8,12 +8,13 @@
 #include <vector>
 #include "Simple-XML/Element.hpp"
 #include "Simple-XML/Element-Visitor.hpp"
+#include "simple-xml_export.h"
 
 namespace simple_xml {
 	using std::string;
 	using std::vector;
 
-	class Element_Creator : public Element_Visitor {
+	class SIMPLE_XML_EXPORT Element_Creator : public Element_Visitor {
 		int m_row_idx = 0; // Current row number.
 		int m_col_idx = 0; // Current column number.
 		int m_wkt_idx = 0; // Current worksheet number.

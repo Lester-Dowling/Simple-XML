@@ -6,11 +6,13 @@ project(
     "Abridged XML grammar to parse simple XML files like from MS Excel.")
 set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 
 #
-# This is an object library project
+# This is a static library project
 #
-add_library(${PROJECT_NAME} OBJECT)
+add_library(${PROJECT_NAME} STATIC)
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 file(
   GLOB SRC_FILES
@@ -34,6 +36,11 @@ endforeach(pub_file)
 #
 target_include_directories(${PROJECT_NAME}
                            PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/public)
+
+# Symbol visibility
+include(GenerateExportHeader)
+generate_export_header(${PROJECT_NAME})
+target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_BINARY_DIR}")
 
 # Private include directories:
 target_include_directories(

@@ -10,6 +10,7 @@
 #include <string>
 #include <functional>
 #include "Simple-XML/Element.hpp"
+#include "simple-xml_export.h"
 
 namespace simple_xml {
 	using std::map;
@@ -17,7 +18,7 @@ namespace simple_xml {
 	using std::vector;
 	using std::function;
 
-	class Element_Visitor {
+	class SIMPLE_XML_EXPORT Element_Visitor {
 	protected:
 		vector<Element>& m_elements; // Ref to the collection of Elements.
 		Element::Index m_current_index;

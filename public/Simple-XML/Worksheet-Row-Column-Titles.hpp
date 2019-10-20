@@ -9,6 +9,8 @@
 #include <utility>
 #include <optional>
 #include "Simple-XML/Row-Column-Titles.hpp"
+#include "simple-xml_export.h"
+
 namespace simple_xml {
 	using std::map;
 	using std::optional;
@@ -19,7 +21,7 @@ namespace simple_xml {
 	/**
 	 * Keep all the titles of worksheets, rows and columns in a workbook.
 	 */
-	class Worksheet_Row_Column_Titles {
+	class SIMPLE_XML_EXPORT Worksheet_Row_Column_Titles {
 		/**
 		 * A mapping from worksheet index to its row and column titles.
 		 */

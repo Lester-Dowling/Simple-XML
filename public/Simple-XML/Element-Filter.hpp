@@ -11,6 +11,7 @@
 #include "Simple-XML/Element-Visitor.hpp"
 #include "Simple-XML/Worksheet-Row-Column-Titles.hpp"
 #include "Pseudo-XPath/Grade.hpp"
+#include "simple-xml_export.h"
 
 namespace simple_xml {
 	using pseudo_xpath::Grade;
@@ -20,7 +21,7 @@ namespace simple_xml {
 	using std::vector;
 	using std::optional;
 
-	class Element_Filter : public Element_Visitor {
+	class SIMPLE_XML_EXPORT Element_Filter : public Element_Visitor {
 		Worksheet_Row_Column_Titles& m_titles;
 		Grade::SP m_filter_path;
 		using This = Element_Filter&; // Indicate member function returns *this.

@@ -11,6 +11,7 @@
 #include "Simple-XML/Element-Filter.hpp"
 #include "Simple-XML/Worksheet-Row-Column-Titles.hpp"
 #include "Pseudo-XPath/Grade.hpp"
+#include "simple-xml_export.h"
 
 namespace simple_xml {
 	using std::string;
@@ -20,7 +21,7 @@ namespace simple_xml {
 	 * A simple XML file represented in memory as a connected set of nodes.  Each node is
 	 * represented by @c Element.
 	 */
-	class Document {
+	class SIMPLE_XML_EXPORT Document {
 		/**
 		 * The connected set of nodes.
 		 */

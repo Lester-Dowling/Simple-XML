@@ -6,7 +6,6 @@
 
 #include "Simple-XML/Element-Visitor.hpp"
 
-
 #define TRACE_VISITOR
 #undef TRACE_VISITOR
 #ifdef TRACE_VISITOR

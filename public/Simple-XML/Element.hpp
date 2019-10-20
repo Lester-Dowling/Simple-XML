@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 #include <optional>
-
+#include "simple-xml_export.h"
 namespace simple_xml {
 	using std::map;
 	using std::string;
@@ -19,7 +19,7 @@ namespace simple_xml {
 	/**
 	 * A single node within the XML document model.
 	 */
-	class Element {
+	class SIMPLE_XML_EXPORT Element {
 		string m_name;
 		string m_text;
 
