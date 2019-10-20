@@ -3,7 +3,9 @@
  * @date   Started 2019-04-18
  * @author Lester J. Dowling
  */
-#include "pch-simple-xml.hpp"
+#include <iostream>
+#include <iomanip>
+
 #include "Simple-XML/Document.hpp"
 #include "Simple-XML/Element-Creator.hpp"
 #include "Simple-XML/Element-Visitor.hpp"

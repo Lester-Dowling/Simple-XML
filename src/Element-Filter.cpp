@@ -3,7 +3,9 @@
  * @date   Started 2018-08-14
  * @author Lester J. Dowling
  */
-#include "pch-simple-xml.hpp"
+#include <stdexcept>
+#include <iostream>
+
 #include "Simple-XML/Element-Filter.hpp"
 
 #define TRACE_ELEMENT_FILTER

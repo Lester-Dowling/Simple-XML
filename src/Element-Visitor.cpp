@@ -3,7 +3,7 @@
  * @date   Started 2018-08-14
  * @author Lester J. Dowling
  */
-#include "pch-simple-xml.hpp"
+
 #include "Simple-XML/Element-Visitor.hpp"
 
 
@@ -25,7 +25,6 @@ namespace simple_xml {
 	using std::vector;
 	using std::map;
 	using std::optional;
-	using std::runtime_error;
 	using std::function;
 
 	bool Element_Visitor::visit_first_child()

@@ -3,7 +3,10 @@
  * @date   Started 2019-04-18
  * @author Lester J. Dowling
  */
-#include "pch-simple-xml.hpp"
+#include <iostream>
+#include <iomanip>
+#include <sstream>
+
 #include "Simple-XML/Element.hpp"
 namespace simple_xml {
 

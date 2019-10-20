@@ -3,7 +3,8 @@
  * @date   Started 2018-08-15
  * @author Lester J. Dowling
  */
-#include "pch-simple-xml.hpp"
+#include <stdexcept>
+
 #include "Simple-XML/Element-Creator.hpp"
 #define TRACE_CREATOR
 #undef TRACE_CREATOR

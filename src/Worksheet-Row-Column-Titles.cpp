@@ -3,7 +3,9 @@
  * @date   Started 2019-04-11
  * @author Lester J. Dowling
  */
-#include "pch-simple-xml.hpp"
+#include <stdexcept>
+#include <vector>
+
 #include "Simple-XML/Worksheet-Row-Column-Titles.hpp"
 namespace simple_xml {
 
