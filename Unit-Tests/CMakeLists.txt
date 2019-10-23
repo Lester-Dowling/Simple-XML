@@ -2,6 +2,8 @@
 set(TARGET "Unit-Tests")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_VERBOSE_MAKEFILE ON)
+add_subdirectory("boost")
+
 add_executable(${TARGET} "main-unit-tests.cpp" "GlobalFixture.hpp"
                          "GlobalFixture.cpp")
 set_property(TARGET ${TARGET} PROPERTY CXX_STANDARD 17)
@@ -16,11 +18,6 @@ target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/test)
 foreach(src_file ${SRC_TEST_FILES})
   message(STATUS "${TARGET} src file: ${src_file}")
 endforeach(src_file)
-
-#
-# Import the subjects for unit testing
-#
-target_link_libraries(${TARGET} PRIVATE "Simple-XML")
 
 if(WIN32)
   target_compile_definitions(
@@ -91,9 +88,13 @@ target_link_libraries(${PROJECT_NAME} PRIVATE "OStream-Extra")
 target_link_libraries(${PROJECT_NAME} PUBLIC "Pseudo-XPath")
 
 #
+# Import the subjects for unit testing
+#
+target_link_libraries(${TARGET} PRIVATE "Simple-XML")
+
+#
 # Boost
 #
-add_subdirectory("boost")
 target_link_libraries(
   ${TARGET}
   PRIVATE #

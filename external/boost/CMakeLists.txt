@@ -1,8 +1,11 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.15)
 
 set(BOOST_VERSION 1.71.0)
-set(Boost_LIBRARIES filesystem program_options date_time regex
-                    unit_test_framework)
+set(Boost_LIBRARIES #
+    filesystem #
+    date_time #
+    regex #
+)
 
 set(BUILD_SHARED_LIBS ON)
 set(Boost_USE_MULTITHREADED ON)
@@ -44,20 +47,13 @@ if(Boost_FOUND)
 
   if(WIN32)
     target_compile_definitions(
-      Boost::boost
-      INTERFACE
-      BOOST_ASIO_HAS_WINDOWS_STREAM_HANDLE
-      BOOST_ASIO_HAS_IOCP
-      BOOST_ASIO_HEADER_ONLY
-      WINAPI_FAMILY=WINAPI_FAMILY_DESKTOP_APP
-      _WIN32_WINNT=_WIN32_WINNT_WIN10
+      Boost::boost INTERFACE BOOST_ASIO_HAS_WINDOWS_STREAM_HANDLE
+      BOOST_ASIO_HAS_IOCP BOOST_ASIO_HEADER_ONLY
       _WINSOCK_DEPRECATED_NO_WARNINGS)
   endif(WIN32)
 
-  # if(NOT WIN32)
-  # Support for <boost/dll.hpp> on Linux: target_link_libraries(Boost::boost
-  # PUBLIC dl)
-  # endif()
+  # if(NOT WIN32) Support for <boost/dll.hpp> on Linux:
+  # target_link_libraries(Boost::boost PUBLIC dl) endif()
 
   #
   # Copy Boost DLLs
@@ -90,12 +86,12 @@ if(Boost_FOUND)
       RoboCopy_Boost_Redist ALL
       COMMENT "RoboCopy of Boost redist"
       COMMAND
-        START /MIN "RoboCopy of Boost redist" ROBOCOPY
-        /LOG:"${BOOST_REDIST_COPY_LOG}" /COPY:DAT /NP /R:2 /W:2
+        START /MIN "RoboCopy of Boost redist" #
+        ROBOCOPY /LOG:"${BOOST_REDIST_COPY_LOG}" /COPY:DAT /NP /R:2 /W:2
         "${BOOST_REDIST_DIR}" "${CMAKE_BINARY_DIR}" ${BOOST_REDIST_COPY_LIST})
   endif(WIN32)
 
-  message(STATUS "------------------ CMake Variable Logging ------------------")
+  message(STATUS "---------------- CMake Variable Logging ----------------")
   message(STATUS "Boost_VERSION:               " ${Boost_VERSION})
   message(STATUS "BOOST_ROOT:                  " ${BOOST_ROOT})
   message(STATUS "BOOST_LIBRARYDIR:            " ${BOOST_LIBRARYDIR})
@@ -103,6 +99,6 @@ if(Boost_FOUND)
   foreach(Boost_Lib ${Boost_LIBRARIES})
     message(STATUS "Boost_Lib:                   " ${Boost_Lib})
   endforeach(Boost_Lib)
-  message(STATUS "---------------- End CMake Variable Logging ----------------")
+  message(STATUS "-------------- End CMake Variable Logging --------------")
 
 endif(Boost_FOUND)
