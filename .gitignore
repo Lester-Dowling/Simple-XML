@@ -10,6 +10,7 @@ out/
 build/
 
 # User-specific files
+trash/
 *.suo
 *.user
 *.userosscache

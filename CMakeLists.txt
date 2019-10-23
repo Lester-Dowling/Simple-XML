@@ -98,7 +98,7 @@ boost_add_component(filesystem date_time regex)
 #
 # External Libraries
 #
-add_subdirectory("external")
+# add_subdirectory("external")
 
 #
 # Import String-Extra git submodule

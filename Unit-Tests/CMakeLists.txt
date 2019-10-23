@@ -2,7 +2,6 @@
 set(TARGET "Unit-Tests")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_VERBOSE_MAKEFILE ON)
-add_subdirectory("boost")
 
 add_executable(${TARGET} "main-unit-tests.cpp" "GlobalFixture.hpp"
                          "GlobalFixture.cpp")
@@ -13,7 +12,6 @@ file(
   CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/test-*.cpp")
 target_sources(${TARGET} PRIVATE ${SRC_TEST_FILES})
 target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/test)
 # Debug dump of test src files:
 foreach(src_file ${SRC_TEST_FILES})
   message(STATUS "${TARGET} src file: ${src_file}")
@@ -95,15 +93,11 @@ target_link_libraries(${TARGET} PRIVATE "Simple-XML")
 #
 # Boost
 #
-target_link_libraries(
-  ${TARGET}
-  PRIVATE #
-          Boost::boost #
-          Boost::filesystem #
-          Boost::date_time #
-          Boost::regex #
-          Boost::unit_test_framework #
-)
+add_subdirectory("boost")
+target_link_libraries(${TARGET} PRIVATE Boost::boost)
+foreach(Boost_Lib $ENV{BOOST_REQUIRED_COMPONENTS})
+  target_link_libraries(${TARGET} PRIVATE Boost::${Boost_Lib})
+endforeach(Boost_Lib)
 if(WIN32)
   add_custom_command(
     TARGET ${TARGET} PRE_BUILD
