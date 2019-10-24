@@ -43,10 +43,8 @@ generate_export_header(${PROJECT_NAME})
 target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_BINARY_DIR}")
 
 # Private include directories:
-target_include_directories(
-  ${PROJECT_NAME} #
-  PRIVATE #
-          ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_include_directories(${PROJECT_NAME}
+                           PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 #
 # Config

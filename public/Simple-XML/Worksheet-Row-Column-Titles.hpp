@@ -8,6 +8,7 @@
 #include <map>
 #include <utility>
 #include <optional>
+#include <stdexcept>
 #include "Simple-XML/Row-Column-Titles.hpp"
 #include "simple-xml_export.h"
 
